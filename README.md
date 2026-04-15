@@ -74,7 +74,9 @@ static void on_pdc(const struct nrf_modem_dect_phy_pdc_event *evt)
 
 ### Sending with 915MHz channel
 
-The current code is set to the default channel for hello_dect, but there are minimal changes necessary to get this function at the long range 915MHz channel. First, you should go into the prj.conf file and change the following
+The current code has been adjusted for the 915MHz channel
+
+If you need to alter another design for this channel here are teh instructions: First, you should go into the prj.conf file and change the following
 
 ```
 CONFIG_CARRIER=530
@@ -92,3 +94,5 @@ config TX_POWER
 	   Transmission power, max 19 dBm due to hardware limitations.
 	   See table 6.2.1-3 of ETSI TS 103 636-4 v1.5.1.
 ```
+
+After rebuilding you should be set for operation on the 915MHz channel which greatly increased the range.
