@@ -301,7 +301,7 @@ static int receive(uint32_t handle)
         .mode                    = NRF_MODEM_DECT_PHY_RX_MODE_SINGLE_SHOT,
         .rssi_interval           = NRF_MODEM_DECT_PHY_RSSI_INTERVAL_OFF,
         .link_id                 = NRF_MODEM_DECT_PHY_LINK_UNSPECIFIED,
-        .rssi_level              = -60,
+        .rssi_level              = -100, // changed
         .carrier                 = CONFIG_CARRIER,
         .duration                = CONFIG_RX_PERIOD_S * MSEC_PER_SEC *
                                    NRF_MODEM_DECT_MODEM_TIME_TICK_RATE_KHZ,
@@ -387,7 +387,7 @@ int main(void)
         /* Open a receive window to catch C's ACK */
         receive(rx_handle);
 
-        if (k_sem_take(&ack_sem, K_SECONDS(2)) == 0) { // on_pdc gives(ack) for correct message so this will fail if give never occurs
+        if (k_sem_take(&ack_sem, K_SECONDS(5)) == 0) { // on_pdc gives(ack) for correct message so this will fail if give never occurs
             k_sem_take(&operation_sem, K_FOREVER);
             LOG_INF("B: C confirmed delivery, seq %d complete", relay_seq);
             break;
