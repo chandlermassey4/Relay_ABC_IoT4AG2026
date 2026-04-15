@@ -255,7 +255,7 @@ static int receive(uint32_t handle)
         .mode                    = NRF_MODEM_DECT_PHY_RX_MODE_SINGLE_SHOT,
         .rssi_interval           = NRF_MODEM_DECT_PHY_RSSI_INTERVAL_OFF,
         .link_id                 = NRF_MODEM_DECT_PHY_LINK_UNSPECIFIED,
-        .rssi_level              = -60,
+        .rssi_level              = -100,   // modular rssi level which computes what the gain should likely be
         .carrier                 = CONFIG_CARRIER,
         .duration                = CONFIG_RX_PERIOD_S * MSEC_PER_SEC *
                                    NRF_MODEM_DECT_MODEM_TIME_TICK_RATE_KHZ,
@@ -332,7 +332,7 @@ int main(void)
             receive(rx_handle);
 
             // 
-            if (k_sem_take(&ack_sem, K_SECONDS(2)) == 0) {  //ksem_take sucessfully returns 1
+            if (k_sem_take(&ack_sem, K_SECONDS(5)) == 0) {  //ksem_take sucessfully returns 1
                 /* ACK received — consume op_complete and move on */
                 k_sem_take(&operation_sem, K_FOREVER);      // wait for recieve operation to completely finish
                 LOG_INF("A: seq %d acknowledged by B", seq);
