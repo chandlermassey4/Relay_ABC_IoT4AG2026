@@ -1,3 +1,22 @@
+# IMPORTANT POTENTIAL ISSUE (READ THIS)
+
+We are currently defining the trasnmit power to 19, however, the PHY header allocated 4 bits to transmit power. This means that the power may be truncated to 3 instead of 19. To fix this you can change this value to 5 to encompass the 19 value. This must be done on all boards that wish to communicate as they must have the same PHY HEADER. This was fixed in the image transfer code but not they relay.
+
+```
+struct phy_ctrl_field_common {
+    uint32_t packet_length      : 4;
+    uint32_t packet_length_type : 1;
+    uint32_t header_format      : 3;
+    uint32_t short_network_id   : 8;
+    uint32_t transmitter_id_hi  : 8;
+    uint32_t transmitter_id_lo  : 8;
+    uint32_t df_mcs             : 3;
+    uint32_t reserved           : 1;
+    uint32_t transmit_power     : 4;  // THIS LINE
+    uint32_t pad                : 24;
+};
+```
+
 # DECT NR+ Relay System
 
 This repository contains all the relevant file for building a simple A -> B -> C relay system. The only files not contained in this repository are the build files.
